@@ -95,8 +95,8 @@ model usuarios {
   nome      String    @db.VarChar(50)
   email     String    @unique @db.VarChar(50)
   senha     String    @db.VarChar(255)
-  n_veis_id String    @map("níveis_id") @db.Uuid
+  nivel_id  String    @db.Uuid
   createdAt DateTime  @default(now()) @db.Timestamp(6)
   updatedAt DateTime? @default(now()) @db.Timestamp(6)
-  niveis    niveis    @relation(fields: [n_veis_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuarios_niveis_fk")
+  nivel     niveis    @relation(fields: [nivel_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuarios_niveis_fk")
 }

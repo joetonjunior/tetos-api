@@ -3,6 +3,7 @@ const cors = require("cors");
 const niveisRoutes = require("./src/routes/niveisRoutes");
 const imoveisTipoRoutes = require("./src/routes/imoveisTipoRoutes");
 const usuariosRoutes = require("./src/routes/usuariosRoutes");
+const { login } = require("./src/controllers/usuariosController");
 
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(express.json()); //transforma o JSON do corpo da requisição em JS.
 app.get("/", (req,res) =>{
     res.send("Hello World");
 });
+
+app.post("/login", login);
 
 app.use("/niveis", niveisRoutes);
 
