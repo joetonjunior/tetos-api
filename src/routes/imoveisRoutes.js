@@ -35,7 +35,7 @@ const rotas = require("express").Router();
 
 rotas.get("/", buscar);
 
-rotas.post("/", validarDados, upload.single('imagem'), criar);
+rotas.post("/", validarDados, upload.single('imagem'));
 
 rotas.put("/:id", validarDados, editar);
 
