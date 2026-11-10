@@ -2,8 +2,8 @@ const swaggerAutogen = require('swagger-autogen')();
 
 const doc = {
   info: {
-    title: 'My API',
-    description: 'Description'
+    title: 'Tetos - API',
+    description: 'API destinada ao uso do banco do sistema Tetos'
   },
   host: 'localhost:3000'
 };

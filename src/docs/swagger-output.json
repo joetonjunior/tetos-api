@@ -15,8 +15,8 @@
       "get": {
         "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -50,7 +50,11 @@
     },
     "/niveis/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Níveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna um array de níveis cadastrados",
         "parameters": [
           {
             "name": "authorization",
@@ -60,15 +64,45 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de níveis retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Admin"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Níveis"
+        ],
+        "summary": "Criar",
+        "description": "Cria um novo nível",
         "parameters": [
           {
             "name": "authorization",
@@ -78,13 +112,19 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Dados para criação do nível",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Admin"
                 }
-              }
+              },
+              "required": [
+                "nome"
+              ]
             }
           }
         ],
@@ -92,21 +132,51 @@
           "200": {
             "description": "OK"
           },
+          "201": {
+            "description": "Registro criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "Admin"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/niveis/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Níveis"
+        ],
+        "summary": "Editar",
+        "description": "Edita um nível existente pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "ID do nível (UUID ou numérico)"
           },
           {
             "name": "authorization",
@@ -116,33 +186,69 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Novos dados do nível",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Gerente"
                 }
-              }
+              },
+              "required": [
+                "nome"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "Gerente"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Níveis"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um nível pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "ID do nível que será deletado"
           },
           {
             "name": "authorization",
@@ -154,15 +260,28 @@
           "200": {
             "description": "OK"
           },
+          "204": {
+            "description": "Registro deletado com sucesso"
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/niveis/{{where{id}}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Níveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna um array de níveis cadastrados",
         "parameters": [
           {
             "name": null,
@@ -177,15 +296,48 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Lista de níveis retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Admin"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/imoveis-tipo/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Tipos de imóveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna um array de tipos de imóveis cadastrados",
         "parameters": [
           {
             "name": "authorization",
@@ -195,15 +347,49 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de tipos de imóveis retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Apartamento"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Tipos de imóveis"
+        ],
+        "summary": "Criar",
+        "description": "Cria um novo tipo de imóvel",
         "parameters": [
           {
             "name": "authorization",
@@ -213,35 +399,68 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Dados para criação do tipo de imóvel",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Apartamento"
                 }
-              }
+              },
+              "required": [
+                "nome"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro criado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/imoveis-tipo/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Tipos de imóveis"
+        ],
+        "summary": "Editar",
+        "description": "Edita um tipo de imóvel existente pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "ID UUID do tipo de imóvel"
           },
           {
             "name": "authorization",
@@ -251,33 +470,69 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Novos dados do tipo de imóvel",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Casa"
                 }
-              }
+              },
+              "required": [
+                "nome"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro atualizado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Tipos de imóveis"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um tipo de imóvel pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "ID UUID do tipo de imóvel que será deletado"
           },
           {
             "name": "authorization",
@@ -287,17 +542,43 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro deletado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/imoveis-tipo/{{where{id}}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Tipos de imóveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna um array de tipos de imóveis cadastrados",
         "parameters": [
           {
             "name": null,
@@ -312,15 +593,52 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Lista de tipos de imóveis retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Apartamento"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/usuarios/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna a lista de usuários cadastrados sem expor as senhas",
         "parameters": [
           {
             "name": "authorization",
@@ -330,15 +648,66 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de usuários retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Maria da Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "maria@example.com"
+                  },
+                  "nivel_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "nivel": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string",
+                        "example": "Admin"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Criar",
+        "description": "Cadastra um novo usuário; a senha é armazenada com hash",
         "parameters": [
           {
             "name": "authorization",
@@ -348,44 +717,83 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Dados para criação do usuário",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Maria da Silva"
                 },
                 "email": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "maria@example.com"
                 },
                 "senha": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "senha-segura"
                 },
                 "nivel_id": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440001"
                 }
-              }
+              },
+              "required": [
+                "nome",
+                "email",
+                "senha",
+                "nivel_id"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro criado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/usuarios/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Editar",
+        "description": "Atualiza os dados de um usuário pelo ID; se informada, a senha é armazenada com hash",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "UUID do usuário"
           },
           {
             "name": "authorization",
@@ -395,11 +803,26 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Campos do usuário que serão atualizados",
             "schema": {
               "type": "object",
               "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "Maria da Silva"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "maria@example.com"
+                },
                 "senha": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "nova-senha-segura"
+                },
+                "nivel_id": {
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440001"
                 }
               }
             }
@@ -407,21 +830,51 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro atualizado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um usuário pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "UUID do usuário que será removido"
           },
           {
             "name": "authorization",
@@ -431,17 +884,43 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro deletado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/usuarios/{{where{id}}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna a lista de usuários cadastrados sem expor as senhas",
         "parameters": [
           {
             "name": null,
@@ -456,15 +935,69 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Lista de usuários retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Maria da Silva"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "maria@example.com"
+                  },
+                  "nivel_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "nivel": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string",
+                        "example": "Admin"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/locatarios/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Locatários"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna a lista de locatários cadastrados",
         "parameters": [
           {
             "name": "authorization",
@@ -474,15 +1007,57 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de locatários retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Maria da Silva"
+                  },
+                  "telefone": {
+                    "type": "string",
+                    "example": "11999999999"
+                  },
+                  "cpf_cnpj": {
+                    "type": "string",
+                    "example": "12345678900"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Locatários"
+        ],
+        "summary": "Criar",
+        "description": "Cadastra um novo locatário",
         "parameters": [
           {
             "name": "authorization",
@@ -492,41 +1067,78 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Dados para criação do locatário",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Maria da Silva"
                 },
                 "telefone": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "11999999999"
                 },
                 "cpf_cnpj": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "12345678900"
                 }
-              }
+              },
+              "required": [
+                "nome",
+                "telefone",
+                "cpf_cnpj"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro criado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/locatarios/{id}": {
       "put": {
-        "description": "",
+        "tags": [
+          "Locatários"
+        ],
+        "summary": "Editar",
+        "description": "Atualiza os dados de um locatário pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "UUID do locatário"
           },
           {
             "name": "authorization",
@@ -536,17 +1148,22 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Campos do locatário que serão atualizados",
             "schema": {
               "type": "object",
               "properties": {
                 "nome": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "Maria da Silva"
                 },
                 "telefone": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "11999999999"
                 },
                 "cpf_cnpj": {
-                  "example": "any"
+                  "type": "string",
+                  "example": "12345678900"
                 }
               }
             }
@@ -554,21 +1171,51 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro atualizado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Locatários"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um locatário pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "UUID do locatário que será removido"
           },
           {
             "name": "authorization",
@@ -578,17 +1225,43 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro deletado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/locatarios/{{where{id}}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Locatários"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna a lista de locatários cadastrados",
         "parameters": [
           {
             "name": null,
@@ -603,15 +1276,60 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Lista de locatários retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "nome": {
+                    "type": "string",
+                    "example": "Maria da Silva"
+                  },
+                  "telefone": {
+                    "type": "string",
+                    "example": "11999999999"
+                  },
+                  "cpf_cnpj": {
+                    "type": "string",
+                    "example": "12345678900"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/imoveis/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Imóveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna a lista de imóveis cadastrados",
         "parameters": [
           {
             "name": "authorization",
@@ -621,16 +1339,307 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de imóveis retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "matricula": {
+                    "type": "number",
+                    "example": 123
+                  },
+                  "logradouro": {
+                    "type": "string",
+                    "example": "Rua das Flores"
+                  },
+                  "bairro": {
+                    "type": "string",
+                    "example": "Centro"
+                  },
+                  "cidade": {
+                    "type": "string",
+                    "example": "São Paulo"
+                  },
+                  "estado": {
+                    "type": "string",
+                    "example": "SP"
+                  },
+                  "numero": {
+                    "type": "string",
+                    "example": "100"
+                  },
+                  "complemento": {
+                    "type": "string",
+                    "example": "Apto 12"
+                  },
+                  "cep": {
+                    "type": "string",
+                    "example": "01000-000"
+                  },
+                  "valor_aluguel": {
+                    "type": "number",
+                    "example": 2500
+                  },
+                  "iptu": {
+                    "type": "number",
+                    "example": 100
+                  },
+                  "valor_condominio": {
+                    "type": "number",
+                    "example": 500
+                  },
+                  "metragem": {
+                    "type": "number",
+                    "example": 75
+                  },
+                  "quartos": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "suites": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "banheiros": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "garagens": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "tipo_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "locatario_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "imagem": {
+                    "type": "string",
+                    "example": "/uploads/imoveis/apartamento.jpeg"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Imóveis"
+        ],
+        "summary": "Criar",
+        "description": "Cadastra um imóvel e envia sua imagem (JPEG, PNG ou WebP, até 5 MB)",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticação Bearer"
+          },
+          {
+            "name": "logradouro",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Logradouro do imóvel (até 50 caracteres)"
+          },
+          {
+            "name": "bairro",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Bairro (até 50 caracteres)"
+          },
+          {
+            "name": "cidade",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Cidade (até 50 caracteres)"
+          },
+          {
+            "name": "estado",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "UF com 2 caracteres"
+          },
+          {
+            "name": "numero",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Número do imóvel (até 15 caracteres)"
+          },
+          {
+            "name": "cep",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "CEP (até 10 caracteres)"
+          },
+          {
+            "name": "valor_aluguel",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "description": "Valor do aluguel"
+          },
+          {
+            "name": "metragem",
+            "in": "formData",
+            "required": true,
+            "type": "number",
+            "description": "Área do imóvel em metros quadrados"
+          },
+          {
+            "name": "quartos",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "description": "Quantidade de quartos"
+          },
+          {
+            "name": "suites",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "description": "Quantidade de suítes"
+          },
+          {
+            "name": "banheiros",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "description": "Quantidade de banheiros"
+          },
+          {
+            "name": "tipo_id",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "UUID do tipo de imóvel"
+          },
+          {
+            "name": "matricula",
+            "in": "formData",
+            "type": "integer",
+            "description": "Matrícula do imóvel"
+          },
+          {
+            "name": "complemento",
+            "in": "formData",
+            "type": "string",
+            "description": "Complemento (até 15 caracteres)"
+          },
+          {
+            "name": "iptu",
+            "in": "formData",
+            "type": "number",
+            "description": "Valor do IPTU"
+          },
+          {
+            "name": "valor_condominio",
+            "in": "formData",
+            "type": "number",
+            "description": "Valor do condomínio"
+          },
+          {
+            "name": "garagens",
+            "in": "formData",
+            "type": "integer",
+            "description": "Quantidade de garagens"
+          },
+          {
+            "name": "locatario_id",
+            "in": "formData",
+            "type": "string",
+            "description": "UUID do locatário"
+          },
+          {
+            "name": "imagem",
+            "in": "formData",
+            "required": true,
+            "type": "file",
+            "description": "Arquivo da imagem do imóvel"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro criado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
+          },
+          "401": {
+            "description": "Token de autenticação ausente ou inválido"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      }
+    },
+    "/imoveis/{id}": {
+      "put": {
+        "tags": [
+          "Imóveis"
+        ],
+        "summary": "Editar",
+        "description": "Atualiza os dados de um imóvel pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "UUID do imóvel"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -639,26 +1648,58 @@
           {
             "name": "body",
             "in": "body",
+            "required": true,
+            "description": "Campos do imóvel que serão atualizados",
             "schema": {
               "type": "object",
               "properties": {
-                "quartos": {
-                  "example": "any"
+                "logradouro": {
+                  "type": "string",
+                  "example": "Rua das Flores"
                 },
-                "banheiros": {
-                  "example": "any"
+                "bairro": {
+                  "type": "string",
+                  "example": "Centro"
                 },
-                "suites": {
-                  "example": "any"
+                "cidade": {
+                  "type": "string",
+                  "example": "São Paulo"
                 },
-                "garagens": {
-                  "example": "any"
+                "estado": {
+                  "type": "string",
+                  "example": "SP"
                 },
-                "metragem": {
-                  "example": "any"
+                "numero": {
+                  "type": "string",
+                  "example": "100"
+                },
+                "cep": {
+                  "type": "string",
+                  "example": "01000-000"
                 },
                 "valor_aluguel": {
-                  "example": "any"
+                  "type": "number",
+                  "example": 2500
+                },
+                "metragem": {
+                  "type": "number",
+                  "example": 75
+                },
+                "quartos": {
+                  "type": "number",
+                  "example": 2
+                },
+                "suites": {
+                  "type": "number",
+                  "example": 1
+                },
+                "banheiros": {
+                  "type": "number",
+                  "example": 2
+                },
+                "tipo_id": {
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440001"
                 }
               }
             }
@@ -666,47 +1707,51 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro atualizado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
           },
           "401": {
             "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/imoveis/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
           },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "404": {
+            "description": "Registro não encontrado"
           },
-          "401": {
-            "description": "Unauthorized"
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Imóveis"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um imóvel pelo ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "UUID do imóvel que será removido"
           },
           {
             "name": "authorization",
@@ -716,17 +1761,43 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Registro deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "succes"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro deletado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }
     },
     "/imoveis/{{where{id}}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Imóveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna a lista de imóveis cadastrados",
         "parameters": [
           {
             "name": null,
@@ -741,8 +1812,113 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Lista de imóveis retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "matricula": {
+                    "type": "number",
+                    "example": 123
+                  },
+                  "logradouro": {
+                    "type": "string",
+                    "example": "Rua das Flores"
+                  },
+                  "bairro": {
+                    "type": "string",
+                    "example": "Centro"
+                  },
+                  "cidade": {
+                    "type": "string",
+                    "example": "São Paulo"
+                  },
+                  "estado": {
+                    "type": "string",
+                    "example": "SP"
+                  },
+                  "numero": {
+                    "type": "string",
+                    "example": "100"
+                  },
+                  "complemento": {
+                    "type": "string",
+                    "example": "Apto 12"
+                  },
+                  "cep": {
+                    "type": "string",
+                    "example": "01000-000"
+                  },
+                  "valor_aluguel": {
+                    "type": "number",
+                    "example": 2500
+                  },
+                  "iptu": {
+                    "type": "number",
+                    "example": 100
+                  },
+                  "valor_condominio": {
+                    "type": "number",
+                    "example": 500
+                  },
+                  "metragem": {
+                    "type": "number",
+                    "example": 75
+                  },
+                  "quartos": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "suites": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "banheiros": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "garagens": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "tipo_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "locatario_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "imagem": {
+                    "type": "string",
+                    "example": "/uploads/imoveis/apartamento.jpeg"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
           }
         }
       }

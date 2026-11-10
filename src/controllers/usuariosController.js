@@ -4,9 +4,6 @@ const jwt = require("jsonwebtoken");
 
 async function buscar(req, res) {
     try {
-        // const linhas = await PRISMA.$queryRaw `SELECT usuarios.nome, usuarios.email, niveis.nome 
-        //                                         FROM usuarios 
-        //                                         INNER JOIN niveis ON usuarios.nivel_id = niveis.id;`
         const linhas = await PRISMA.usuarios.findMany({
             include: {
                 nivel: {
