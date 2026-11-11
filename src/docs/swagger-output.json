@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "My API",
-    "description": "Description",
+    "title": "Tetos - API",
+    "description": "API destinada ao uso do banco do sistema Tetos",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -1335,6 +1335,21 @@
             "name": "authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "manutencoes",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "historicos",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "locatario",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1916,6 +1931,591 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      }
+    },
+    "/historico-imovel/": {
+      "get": {
+        "tags": [
+          "Histórico de Imóveis"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna os históricos de imóveis cadastrados, incluindo os dados do imóvel e do locatário relacionados",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de históricos retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440000"
+                  },
+                  "descricao": {
+                    "type": "string",
+                    "example": "Locação residencial"
+                  },
+                  "data_entrada": {
+                    "type": "string",
+                    "example": "2026-01-01T00:00:00.000Z"
+                  },
+                  "data_saida": {
+                    "type": "string",
+                    "example": "2026-12-31T00:00:00.000Z"
+                  },
+                  "valor_aluguel": {
+                    "type": "number",
+                    "example": 1800
+                  },
+                  "valor_iptu": {
+                    "type": "number",
+                    "example": 100
+                  },
+                  "valor_condominio": {
+                    "type": "number",
+                    "example": 350
+                  },
+                  "imovel_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440001"
+                  },
+                  "locatario_id": {
+                    "type": "string",
+                    "example": "550e8400-e29b-41d4-a716-446655440002"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "imoveis": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "locatarios": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Histórico de Imóveis"
+        ],
+        "summary": "Criar",
+        "description": "Cria um novo histórico de imóvel",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Dados para criação do histórico de imóvel",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "descricao": {
+                  "type": "string",
+                  "example": "Locação residencial"
+                },
+                "data_entrada": {
+                  "type": "string",
+                  "example": "2026-01-01"
+                },
+                "data_saida": {
+                  "type": "string",
+                  "example": "2026-12-31"
+                },
+                "valor_aluguel": {
+                  "type": "number",
+                  "example": 1800
+                },
+                "valor_iptu": {
+                  "type": "number",
+                  "example": 100
+                },
+                "valor_condominio": {
+                  "type": "number",
+                  "example": 350
+                },
+                "imovel_id": {
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440001"
+                },
+                "locatario_id": {
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440002"
+                }
+              },
+              "required": [
+                "descricao",
+                "data_entrada",
+                "data_saida",
+                "imovel_id",
+                "locatario_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Registro criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro criado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      }
+    },
+    "/historico-imovel/{id}": {
+      "put": {
+        "tags": [
+          "Histórico de Imóveis"
+        ],
+        "summary": "Editar",
+        "description": "Edita um histórico de imóvel existente pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID UUID do histórico de imóvel"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Novos dados do histórico de imóvel",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "descricao": {
+                  "type": "string",
+                  "example": "Locação residencial"
+                },
+                "data_entrada": {
+                  "type": "string",
+                  "example": "2026-01-01"
+                },
+                "data_saida": {
+                  "type": "string",
+                  "example": "2026-12-31"
+                },
+                "valor_aluguel": {
+                  "type": "number",
+                  "example": 1800
+                },
+                "valor_iptu": {
+                  "type": "number",
+                  "example": 100
+                },
+                "valor_condominio": {
+                  "type": "number",
+                  "example": 350
+                },
+                "imovel_id": {
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440001"
+                },
+                "locatario_id": {
+                  "type": "string",
+                  "example": "550e8400-e29b-41d4-a716-446655440002"
+                }
+              },
+              "required": [
+                "descricao",
+                "data_entrada",
+                "data_saida",
+                "imovel_id",
+                "locatario_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro atualizado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Histórico de Imóveis"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um histórico de imóvel pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID UUID do histórico de imóvel que será deletado"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Registro deletado com sucesso."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      }
+    },
+    "/manutencoes/": {
+      "get": {
+        "tags": [
+          "Manutenção"
+        ],
+        "summary": "Buscar",
+        "description": "Retorna um array de manutenções cadastradas",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de manutenções retornada com sucesso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "descricao": {
+                    "type": "string",
+                    "example": "troca de torneira"
+                  },
+                  "valor": {
+                    "type": "number",
+                    "example": 10
+                  },
+                  "data": {
+                    "type": "string",
+                    "example": "10/11/2026"
+                  },
+                  "imovel_id": {
+                    "type": "string",
+                    "example": "cccc-123-12asda"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2026-11-09T00:00:00.000Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Manutenção"
+        ],
+        "summary": "Criar",
+        "description": "Cria um novo histórico",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Dados para criação do histórico",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "descricao": {
+                  "type": "string",
+                  "example": "troca de torneira"
+                },
+                "valor": {
+                  "type": "number",
+                  "example": 10
+                },
+                "data": {
+                  "type": "string",
+                  "example": "10/11/2026"
+                },
+                "imovel_id": {
+                  "type": "string",
+                  "example": "asdf-qqwer-xcvb"
+                }
+              },
+              "required": [
+                "descricao",
+                "valor",
+                "data",
+                "imovel_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Registro criado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos ou faltando"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      }
+    },
+    "/manutencoes/{id}": {
+      "put": {
+        "tags": [
+          "Manutenção"
+        ],
+        "summary": "Editar",
+        "description": "Edita um histórico existente pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do histórico (UUID ou numérico)"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "Novos dados do histórico",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "descricao": {
+                  "type": "string",
+                  "example": "troca de torneira"
+                },
+                "valor": {
+                  "type": "number",
+                  "example": 10
+                },
+                "data": {
+                  "type": "string",
+                  "example": "10/11/2026"
+                },
+                "imovel_id": {
+                  "type": "string",
+                  "example": "asdf-qqwer-xcvb"
+                }
+              },
+              "required": [
+                "descricao",
+                "valor",
+                "data",
+                "imovel_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro atualizado com sucesso"
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
+          },
+          "500": {
+            "description": "Erro interno no servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Manutenção"
+        ],
+        "summary": "Deletar",
+        "description": "Remove um histórico pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do histórico que será deletado"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "Registro deletado com sucesso"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Registro não encontrado"
           },
           "500": {
             "description": "Erro interno no servidor"
