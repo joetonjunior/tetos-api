@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const niveisRoutes = require("./src/routes/niveisRoutes");
 const imoveisTipoRoutes = require("./src/routes/imoveisTipoRoutes");
 const usuariosRoutes = require("./src/routes/usuariosRoutes");
@@ -26,7 +27,9 @@ app.get("/", (req,res) =>{
     res.redirect("/docs");
 });
 
+
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.post("/login", login);
 
