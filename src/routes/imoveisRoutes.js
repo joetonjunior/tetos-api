@@ -5,7 +5,7 @@ const path = require("path");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/imoveis')
+        cb(null, path.join(__dirname, "../../uploads/imoveis"))
     },
     filename: function (req, file, cb) {
         const extensao = path.extname(file.originalname);
@@ -119,32 +119,27 @@ rotas.put("/:id",
     /*
       #swagger.tags = ['Imóveis']
       #swagger.summary = 'Editar'
-      #swagger.description = 'Atualiza os dados de um imóvel pelo ID'
+      #swagger.description = 'Atualiza os dados de um imóvel pelo ID e, opcionalmente, substitui sua imagem (JPEG, PNG ou WebP, até 5 MB)'
+      #swagger.consumes = ['multipart/form-data']
       #swagger.parameters['id'] = {
           in: 'path',
           required: true,
           type: 'string',
           description: 'UUID do imóvel'
       }
-      #swagger.parameters['body'] = {
-          in: 'body',
-          required: true,
-          description: 'Campos do imóvel que serão atualizados',
-          schema: {
-              logradouro: 'Rua das Flores',
-              bairro: 'Centro',
-              cidade: 'São Paulo',
-              estado: 'SP',
-              numero: '100',
-              cep: '01000-000',
-              valor_aluguel: 2500,
-              metragem: 75,
-              quartos: 2,
-              suites: 1,
-              banheiros: 2,
-              tipo_id: '550e8400-e29b-41d4-a716-446655440001'
-          }
-      }
+      #swagger.parameters['imagem'] = { in: 'formData', required: false, type: 'file', description: 'Nova imagem do imóvel (opcional)' }
+      #swagger.parameters['logradouro'] = { in: 'formData', type: 'string' }
+      #swagger.parameters['bairro'] = { in: 'formData', type: 'string' }
+      #swagger.parameters['cidade'] = { in: 'formData', type: 'string' }
+      #swagger.parameters['estado'] = { in: 'formData', type: 'string' }
+      #swagger.parameters['numero'] = { in: 'formData', type: 'string' }
+      #swagger.parameters['cep'] = { in: 'formData', type: 'string' }
+      #swagger.parameters['valor_aluguel'] = { in: 'formData', type: 'number' }
+      #swagger.parameters['metragem'] = { in: 'formData', type: 'number' }
+      #swagger.parameters['quartos'] = { in: 'formData', type: 'integer' }
+      #swagger.parameters['suites'] = { in: 'formData', type: 'integer' }
+      #swagger.parameters['banheiros'] = { in: 'formData', type: 'integer' }
+      #swagger.parameters['tipo_id'] = { in: 'formData', type: 'string' }
       #swagger.responses[200] = {
           description: 'Registro atualizado com sucesso',
           schema: {
@@ -162,7 +157,7 @@ rotas.put("/:id",
           description: 'Erro interno no servidor'
       }
     */
-    validarDados, editar);
+    upload.single('imagem'), validarDados, editar);
 
 rotas.delete("/:id",
     /*

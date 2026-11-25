@@ -1646,7 +1646,10 @@
           "Imóveis"
         ],
         "summary": "Editar",
-        "description": "Atualiza os dados de um imóvel pelo ID",
+        "description": "Atualiza os dados de um imóvel pelo ID e, opcionalmente, substitui sua imagem (JPEG, PNG ou WebP, até 5 MB)",
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1661,63 +1664,71 @@
             "type": "string"
           },
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "description": "Campos do imóvel que serão atualizados",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "logradouro": {
-                  "type": "string",
-                  "example": "Rua das Flores"
-                },
-                "bairro": {
-                  "type": "string",
-                  "example": "Centro"
-                },
-                "cidade": {
-                  "type": "string",
-                  "example": "São Paulo"
-                },
-                "estado": {
-                  "type": "string",
-                  "example": "SP"
-                },
-                "numero": {
-                  "type": "string",
-                  "example": "100"
-                },
-                "cep": {
-                  "type": "string",
-                  "example": "01000-000"
-                },
-                "valor_aluguel": {
-                  "type": "number",
-                  "example": 2500
-                },
-                "metragem": {
-                  "type": "number",
-                  "example": 75
-                },
-                "quartos": {
-                  "type": "number",
-                  "example": 2
-                },
-                "suites": {
-                  "type": "number",
-                  "example": 1
-                },
-                "banheiros": {
-                  "type": "number",
-                  "example": 2
-                },
-                "tipo_id": {
-                  "type": "string",
-                  "example": "550e8400-e29b-41d4-a716-446655440001"
-                }
-              }
-            }
+            "name": "imagem",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "description": "Nova imagem do imóvel (opcional)"
+          },
+          {
+            "name": "logradouro",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "bairro",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "cidade",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "estado",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "numero",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "cep",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "valor_aluguel",
+            "in": "formData",
+            "type": "number"
+          },
+          {
+            "name": "metragem",
+            "in": "formData",
+            "type": "number"
+          },
+          {
+            "name": "quartos",
+            "in": "formData",
+            "type": "integer"
+          },
+          {
+            "name": "suites",
+            "in": "formData",
+            "type": "integer"
+          },
+          {
+            "name": "banheiros",
+            "in": "formData",
+            "type": "integer"
+          },
+          {
+            "name": "tipo_id",
+            "in": "formData",
+            "type": "string"
           }
         ],
         "responses": {
