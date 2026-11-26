@@ -134,6 +134,10 @@ async function login(req, res) {
 
         delete usuario.senha;
 
+        if (usuario.nivel_id === process.env.NIVEL_ACESSO_ID) {
+            usuario.acesso = "true";
+        }
+
         let token = await jwt.sign({id: usuario.id}, process.env.SEGREDO, {expiresIn: "1h" })
 
         res.json({
